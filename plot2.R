@@ -9,8 +9,8 @@ df <- read.csv("./household_power_consumption.txt",
 t <- paste(df$Date, df$Time) # default sep = " "
 s <- strptime(t, "%d/%m/%Y %H:%M:%S")
 df$Time <- s
-hist(df$Global_active_power, col = "red",
-     main = "Global Active Power",
-     xlab = "Global Active Power (kilowatts)")
-dev.copy(png, file = "plot1.png")
+
+plot(df$Time, df$Global_active_power, type = "l",
+     ylab = "Global Active Power (kilowatts)", xlab = "")
+dev.copy(png, file = "plot2.png")
 dev.off()
