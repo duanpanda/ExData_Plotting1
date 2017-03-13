@@ -1,16 +1,12 @@
-df <- read.csv("./household_power_consumption.txt",
-               nrows = 69518-66637-1, skip = 66636, # only read lines for 1-Feb-2007 and 2-Feb-2007
-               sep = ";",
-               col.names = c("Date", "Time", "Global_active_power", "Global_reactive_power",
-                             "Voltage", "Global_intensity", "Sub_metering_1",
-                             "Sub_metering_2", "Sub_metering_3"),
-               na.strings = "?",
-               as.is = c(1, 2)) # do not convert first and second column to Factors
-t <- paste(df$Date, df$Time) # default sep = " "
-s <- strptime(t, "%d/%m/%Y %H:%M:%S")
-df$Time <- s
+source("loaddata.R")
+
+# Drawing on the fixed size PNG directly makes the size of the legend beautiful.
+# If we draw it on the screen device and then dev.copy(png,...), the legend will be ugly.
+# The example images in "figure" directory are 504 * 504. I choose 500 * 500 to make
+# a slight difference.
+png("plot2.png", width = 500, height = 500)
 
 plot(df$Time, df$Global_active_power, type = "l",
      ylab = "Global Active Power (kilowatts)", xlab = "")
-dev.copy(png, file = "plot2.png")
+
 dev.off()
