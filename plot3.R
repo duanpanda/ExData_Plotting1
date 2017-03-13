@@ -1,0 +1,22 @@
+df <- read.csv("./household_power_consumption.txt",
+               nrows = 69518-66637-1, skip = 66636, # only read lines for 1-Feb-2007 and 2-Feb-2007
+               sep = ";",
+               col.names = c("Date", "Time", "Global_active_power", "Global_reactive_power",
+                             "Voltage", "Global_intensity", "Sub_metering_1",
+                             "Sub_metering_2", "Sub_metering_3"),
+               na.strings = "?",
+               as.is = c(1, 2)) # do not convert first and second column to Factors
+t <- paste(df$Date, df$Time) # default sep = " "
+s <- strptime(t, "%d/%m/%Y %H:%M:%S")
+df$Time <- s
+
+plot(df$Time, df$Sub_metering_1, type = "l",
+     ylab = "Energy sub metering", xlab = "", col = "black")
+points(df$Time, df$Sub_metering_2, type = "l", col = "red")
+points(df$Time, df$Sub_metering_3, type = "l", col = "blue")
+legend("topright", col = c("black", "red", "blue"),
+       lty = c("solid", "solid", "solid"),
+       legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), cex = 0.8)
+
+dev.copy(png, file = "plot3.png")
+dev.off()
